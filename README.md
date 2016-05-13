@@ -5,7 +5,7 @@ Home: http://www.tornadoweb.org/
 
 Package license: Apache Software License
 
-Feedstock license: BSD
+Feedstock license: BSD 3-Clause
 
 Summary: Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed.
 
@@ -69,6 +69,7 @@ Terminology
 
 Current build status
 ====================
+
 Linux: [![Circle CI](https://circleci.com/gh/conda-forge/tornado-feedstock.svg?style=svg)](https://circleci.com/gh/conda-forge/tornado-feedstock)
 OSX: [![TravisCI](https://travis-ci.org/conda-forge/tornado-feedstock.svg?branch=master)](https://travis-ci.org/conda-forge/tornado-feedstock) 
 Windows: [![AppVeyor](https://ci.appveyor.com/api/projects/status/github/conda-forge/tornado-feedstock?svg=True)](https://ci.appveyor.com/project/conda-forge/tornado-feedstock/branch/master)
