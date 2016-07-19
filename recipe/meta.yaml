@@ -6,7 +6,7 @@ package:
 
 source:
   fn: tornado-{{ version }}.tar.gz
-  url: https://pypi.io/packages/source/t/tornado/tornado-{{ version }}.tar.gz
+  url: https://pypi.io/packages/source/t/tornado/tornado-{{ version.rsplit('.0', 1)[0] }}.tar.gz
   md5: d523204389cfb70121bb69709f551b20
 
 build:
