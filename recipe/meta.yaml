@@ -17,13 +17,11 @@ requirements:
   build:
     - python
     - setuptools
-    - ssl_match_hostname   # [py<35]
-    - certifi
   run:
     - python
-    - ssl_match_hostname   # [py<35]
-    - certifi
-    - singledispatch       # [py<34]
+    - ssl_match_hostname   # [py2k]
+    - certifi              # [py2k]
+    - singledispatch       # [py2k]
     - backports_abc >=0.4  # [py<35]
 
 test:
@@ -32,6 +30,7 @@ test:
     - tornado.platform
     - tornado.test
     - tornado.gen
+    - tornado.netutil
 
 about:
   home: http://www.tornadoweb.org/
