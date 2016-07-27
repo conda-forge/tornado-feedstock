@@ -10,25 +10,28 @@ source:
   md5: fff8a7d7f580b04bacc2ffe7ddf41133
 
 build:
-  number: 0
+  number: 1
   script: python setup.py install --single-version-externally-managed --record=record.txt
 
 requirements:
   build:
     - python
     - setuptools
-    - ssl_match_hostname  # [py<35]
-    - certifi
   run:
     - python
-    - ssl_match_hostname  # [py<35]
-    - certifi
+    - ordereddict          # [py<27]
+    - ssl_match_hostname   # [py2k]
+    - singledispatch       # [py<34]
+    - certifi              # [py<34]
+    - backports_abc >=0.4  # [py<35]
 
 test:
   imports:
     - tornado
     - tornado.platform
     - tornado.test
+    - tornado.gen
+    - tornado.netutil
 
 about:
   home: http://www.tornadoweb.org/
