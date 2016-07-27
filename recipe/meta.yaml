@@ -1,4 +1,4 @@
-{% set version = "4.4" %}
+{% set version = "4.4.1" %}
 
 package:
   name: tornado
@@ -7,7 +7,7 @@ package:
 source:
   fn: tornado-{{ version }}.tar.gz
   url: https://pypi.io/packages/source/t/tornado/tornado-{{ version }}.tar.gz
-  md5: 5fc47b25bea3da157b0b95745a09561d
+  md5: fff8a7d7f580b04bacc2ffe7ddf41133
 
 build:
   number: 0
