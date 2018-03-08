@@ -34,7 +34,9 @@ about:
   home: http://www.tornadoweb.org/
   license: Apache 2.0
   license_file: LICENSE
-  summary: 'Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed.'
+  summary: |
+    Tornado is a Python web framework and asynchronous networking library,
+    originally developed at FriendFeed.
 
 extra:
   recipe-maintainers:
