@@ -7,7 +7,9 @@ Package license: Apache 2.0
 
 Feedstock license: BSD 3-Clause
 
-Summary: Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed.
+Summary: Tornado is a Python web framework and asynchronous networking library,
+originally developed at FriendFeed.
+
 
 
 
