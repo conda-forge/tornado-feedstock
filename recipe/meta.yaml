@@ -10,19 +10,17 @@ source:
 
 build:
   number: 0
+  skip: True  # [py<35]
   script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
 requirements:
   build:
     - {{ compiler('c') }}
   host:
-    - python >=3.6
+    - python
     - pip
   run:
-    - python >=3.6
-    - futures              # [py<32]
-    - singledispatch       # [py<34]
-    - backports_abc >=0.4  # [py<35]
+    - python
 
 test:
   imports:
