@@ -16,10 +16,10 @@ requirements:
   build:
     - {{ compiler('c') }}
   host:
-    - python
+    - python >=3.6
     - pip
   run:
-    - python
+    - python >=3.6
     - futures              # [py<32]
     - singledispatch       # [py<34]
     - backports_abc >=0.4  # [py<35]
