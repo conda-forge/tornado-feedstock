@@ -1,0 +1,28 @@
+From 58eaf0d2c98f384dcdbadd335da04f561451cfbd Mon Sep 17 00:00:00 2001
+From: Michael Sarahan <msarahan@gmail.com>
+Date: Fri, 7 Feb 2020 15:48:44 -0600
+Subject: [PATCH] set asyncio event loop policy on windows
+
+---
+ tornado/platform/asyncio.py | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/tornado/platform/asyncio.py b/tornado/platform/asyncio.py
+index 0b79f82..99cd01a 100644
+--- a/tornado/platform/asyncio.py
++++ b/tornado/platform/asyncio.py
+@@ -28,6 +28,11 @@ from tornado.ioloop import IOLoop, _Selectable
+ 
+ import asyncio
+ 
++import sys
++
++if sys.platform == 'win32':
++    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
++
+ import typing
+ from typing import Any, TypeVar, Awaitable, Callable, Union, Optional
+ 
+-- 
+2.20.1
+
