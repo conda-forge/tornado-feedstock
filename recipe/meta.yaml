@@ -9,9 +9,10 @@ source:
   sha256: c845db36ba616912074c5b1ee897f8e0124df269468f25e4fe21fe72f6edd7a9
   patches:
     - 0001-set-asyncio-event-loop-policy-on-windows.patch
+    - 0001-Set-windows-selector-event-loop-policy-only-if-avail.patch
 
 build:
-  number: 1
+  number: 2
   skip: True  # [py<35]
   script: "{{ PYTHON }} -m pip install . --no-deps -vv"
 
