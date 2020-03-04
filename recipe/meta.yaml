@@ -23,6 +23,10 @@ requirements:
     - python
 
 test:
+  requires:
+    - pip
+  commands:
+    - pip check
   imports:
     - tornado
     - tornado.platform
@@ -32,7 +36,7 @@ test:
 
 about:
   home: http://www.tornadoweb.org/
-  license: Apache 2.0
+  license: Apache-2.0
   license_family: Apache
   license_file: LICENSE
   license_url: http://www.apache.org/licenses/LICENSE-2.0
