@@ -1,4 +1,4 @@
-{% set version = "6.3" %}
+{% set version = "6.3.2" %}
 
 package:
   name: tornado
@@ -6,7 +6,7 @@ package:
 
 source:
   url: https://pypi.io/packages/source/t/tornado/tornado-{{ version }}.tar.gz
-  sha256: d68f3192936ff2c4add04dc21a436a43b4408d466746b78bb2b9d0a53a18683f
+  sha256: 4b927c4f19b71e627b13f3db2324e4ae660527143f9e1f2e2fb404f3a187e2ba
 
 build:
   number: 0
