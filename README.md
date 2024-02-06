@@ -3,15 +3,15 @@ About tornado-feedstock
 
 Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/tornado-feedstock/blob/main/LICENSE.txt)
 
-Home: http://www.tornadoweb.org/
+Home: https://www.tornadoweb.org/
 
-Package license: [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0)
+Package license: [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
 
 Summary: A Python web framework and asynchronous networking library, originally developed at FriendFeed.
 
 Development: https://github.com/tornadoweb/tornado
 
-Documentation: http://www.tornadoweb.org/en/stable/
+Documentation: https://www.tornadoweb.org/en/stable/
 
 Tornado is a Python web framework and asynchronous networking library.
 By using non-blocking network I/O, Tornado can scale to tens of thousands
