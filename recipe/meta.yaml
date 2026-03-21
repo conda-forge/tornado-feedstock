@@ -1,4 +1,4 @@
-{% set version = "6.5.4" %}
+{% set version = "6.5.5" %}
 
 package:
   name: tornado
