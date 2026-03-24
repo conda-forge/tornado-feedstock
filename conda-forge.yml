@@ -2,6 +2,7 @@ bot:
   inspection: update-grayskull
 build_platform:
   osx_arm64: osx_64
+  win_arm64: win_64
 conda_build:
   pkg_format: '2'
 conda_forge_output_validation: true
