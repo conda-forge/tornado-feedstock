@@ -5,11 +5,11 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/t/tornado/tornado-{{ version }}.tar.gz
+  url: https://files.pythonhosted.org/packages/source/t/tornado/tornado-{{ version }}.tar.gz
   sha256: 9452e1b208a8bd771e2cb1f2ff564985b9b214bdebbe622793e1799e0a6bd23f
 
 build:
-  number: 0
+  number: 1
   skip: true  # [py<38]
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
