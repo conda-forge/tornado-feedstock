@@ -43,20 +43,23 @@ tests:
         - tornado.gen
         - tornado.netutil
       pip_check: true
-  - requirements:
-      run:
-        - pytest
-        - hypothesis
-        # not available
-        - if: not riscv64
-          then: pycurl
-    script:
-      env:
-        ASYNC_TEST_TIMEOUT: 60
-        # avoids time-sensitive tests
-        TRAVIS: 1
-      content:
-        - python -m tornado.test.runtests --verbose
+  # ppc64le emulation is too slow, and causes flakiness
+  - if: not ppc64le
+    then:
+      - requirements:
+          run:
+            - pytest
+            - hypothesis
+            # not available
+            - if: not riscv64
+              then: pycurl
+        script:
+          env:
+            ASYNC_TEST_TIMEOUT: 60
+            # avoids time-sensitive tests
+            TRAVIS: 1
+          content:
+            - python -m tornado.test.runtests --verbose
 
 about:
   summary: Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed.
