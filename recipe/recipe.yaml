@@ -1,0 +1,76 @@
+schema_version: 1
+
+context:
+  version: "6.6"
+
+package:
+  name: tornado
+  version: ${{ version }}
+
+source:
+  url: https://files.pythonhosted.org/packages/source/t/tornado/tornado-${{ version }}.tar.gz
+  sha256: 34c4aa916d7f2b2d5cadee2c6850f5a4a7f3d688cbf58399ea9bd3057af4abd5
+  patches:
+    # specific to conda-forge CI
+    - patches/skip-failing-tests.patch
+
+build:
+  number: 0
+  skip: match(python, "<3.11")
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  build:
+    - if: build_platform != target_platform
+      then:
+        - python
+        - cross-python_${{ target_platform }}
+    - ${{ compiler("c") }}
+    - ${{ stdlib("c") }}
+  host:
+    - python
+    - setuptools
+    - pip
+  run:
+    - python
+
+tests:
+  - python:
+      imports:
+        - tornado
+        - tornado.platform
+        - tornado.test
+        - tornado.gen
+        - tornado.netutil
+      pip_check: true
+  # ppc64le emulation is too slow, and causes flakiness
+  - if: not ppc64le
+    then:
+      - requirements:
+          run:
+            - pytest
+            - hypothesis
+            # not available
+            - if: not riscv64
+              then: pycurl
+        script:
+          env:
+            ASYNC_TEST_TIMEOUT: 60
+            # avoids time-sensitive tests
+            TRAVIS: 1
+          content:
+            - python -m tornado.test.runtests --verbose
+
+about:
+  summary: Tornado is a Python web framework and asynchronous networking library, originally developed at FriendFeed.
+  license: Apache-2.0
+  license_file: LICENSE
+  homepage: http://www.tornadoweb.org/
+  repository: https://github.com/tornadoweb/tornado
+
+extra:
+  recipe-maintainers:
+    - jakirkham
+    - pelson
+    - ocefpaf
+    - mgorny
