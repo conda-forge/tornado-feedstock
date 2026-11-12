@@ -13,6 +13,8 @@ source:
   patches:
     # specific to conda-forge CI
     - patches/skip-failing-tests.patch
+    # backport https://github.com/tornadoweb/tornado/pull/3880 (caught by our CI)
+    - patches/3880.patch
 
 build:
   number: 0

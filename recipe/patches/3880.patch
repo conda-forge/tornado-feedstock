@@ -1,0 +1,85 @@
+From 44f495529af00fc112351556d395f5638bfc4afc Mon Sep 17 00:00:00 2001
+From: Ansh Rohilla <anshrohilla.b81@gmail.com>
+Date: Thu, 12 Nov 2026 13:54:55 +0530
+Subject: [PATCH] http1connection, circlerefs_test: Close accepted sockets on
+ shutdown
+
+Close remaining server connections cleanly in CircleRefsTest.run_handler via await server.close_all_connections(), and call conn.close() when HTTP1ServerConnection._server_request_loop exits on asyncio.CancelledError (leaving detached streams untouched).
+
+Fixes #3879.
+---
+ tornado/http1connection.py           |  4 +++-
+ tornado/test/circlerefs_test.py      |  2 ++
+ tornado/test/http1connection_test.py | 25 +++++++++++++++++++++++--
+ 3 files changed, 28 insertions(+), 3 deletions(-)
+
+diff --git a/tornado/http1connection.py b/tornado/http1connection.py
+index 99433b8aff..853c2e12e4 100644
+--- a/tornado/http1connection.py
++++ b/tornado/http1connection.py
+@@ -955,9 +955,11 @@ async def _server_request_loop(
+                 except (
+                     iostream.StreamClosedError,
+                     iostream.UnsatisfiableReadError,
+-                    asyncio.CancelledError,
+                 ):
+                     return
++                except asyncio.CancelledError:
++                    conn.close()
++                    return
+                 except Exception:
+                     gen_log.error("Uncaught exception", exc_info=True)
+                     conn.close()
+diff --git a/tornado/test/circlerefs_test.py b/tornado/test/circlerefs_test.py
+index fad8136ead..974f7fa70c 100644
+--- a/tornado/test/circlerefs_test.py
++++ b/tornado/test/circlerefs_test.py
+@@ -173,6 +173,8 @@ async def run_handler(self, handler_class, client_factory=None, **fetch_kwargs):
+             await client.fetch(f"http://127.0.0.1:{port}/", **fetch_kwargs)
+         client.close()
+         server.stop()
++        await server.close_all_connections()
++        self.assertFalse(server._connections)
+         socket.close()
+ 
+     def test_sync_handler(self):
+diff --git a/tornado/test/http1connection_test.py b/tornado/test/http1connection_test.py
+index 62ec3a9747..a3243c2705 100644
+--- a/tornado/test/http1connection_test.py
++++ b/tornado/test/http1connection_test.py
+@@ -2,8 +2,8 @@
+ import socket
+ 
+ from tornado import gen
+-from tornado.http1connection import HTTP1Connection
+-from tornado.httputil import HTTPMessageDelegate
++from tornado.http1connection import HTTP1Connection, HTTP1ServerConnection
++from tornado.httputil import HTTPMessageDelegate, HTTPServerConnectionDelegate
+ from tornado.iostream import IOStream
+ from tornado.locks import Event
+ from tornado.log import app_log, gen_log
+@@ -191,3 +191,24 @@ def test_chunked_body_bad_chunk_terminator(self):
+         with ExpectLog(gen_log, ".*improperly terminated chunk", level=logging.INFO):
+             result = yield conn.read_response(HTTPMessageDelegate())
+         self.assertIs(result, False)
++
++    @gen_test
++    def test_server_connection_cancel_closes_stream(self):
++        closed = []
++
++        class Delegate(HTTPServerConnectionDelegate):
++            def start_request(self, server_conn, request_conn):
++                return HTTPMessageDelegate()
++
++            def on_close(self, server_conn):
++                closed.append(server_conn)
++
++        server_conn = HTTP1ServerConnection(self.server_stream)
++        server_conn.start_serving(Delegate())
++        yield gen.moment
++        self.assertFalse(self.server_stream.closed())
++        assert server_conn._serving_future is not None
++        server_conn._serving_future.cancel()
++        yield server_conn._serving_future
++        self.assertTrue(self.server_stream.closed())
++        self.assertEqual(closed, [server_conn])
